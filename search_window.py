@@ -22,12 +22,12 @@ def open_search_window():
 
         if not term:
             for pid, data in all_products.items():
-                result_listbox.insert(tk.END, f"{pid}: {data['name']} - ${data['price']:.2f}")
+                result_listbox.insert(tk.END, f"{pid}: {data['name']} - ksh{data['price']:.2f}")
         else:
             found = False
             for pid, data in all_products.items():
                 if term in pid.lower() or term in data["name"].lower():
-                    result_listbox.insert(tk.END, f"{pid}: {data['name']} - ${data['price']:.2f}")
+                    result_listbox.insert(tk.END, f"{pid}: {data['name']} - ksh{data['price']:.2f}")
                     found = True
             if not found:
                 result_listbox.insert(tk.END, "No products found.")

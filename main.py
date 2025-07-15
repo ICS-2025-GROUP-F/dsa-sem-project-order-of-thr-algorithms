@@ -1,4 +1,5 @@
 import tkinter as tk
+from db import initialize_database
 from product_window import open_product_window
 from cart_window import open_cart_window
 from search_window import open_search_window
@@ -9,6 +10,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title("Simple E-Commerce UI")
         self.geometry("600x400")
+        initialize_database()
         self.init_ui()
 
     def init_ui(self):

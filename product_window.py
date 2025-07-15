@@ -1,13 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
-from product_data import add_product, delete_product, get_all_products
+from product_data import add_product, delete_product, get_all_products, get_next_product_id
 
 def open_product_window():
     window = tk.Toplevel()
     window.title("Product Manager")
     window.geometry("450x400")
 
-    # --- UI Components ---
     tk.Label(window, text="Product Name").grid(row=0, column=0, padx=10, pady=5)
     name_entry = tk.Entry(window)
     name_entry.grid(row=0, column=1)
@@ -22,14 +21,15 @@ def open_product_window():
     def refresh_product_list():
         product_listbox.delete(0, tk.END)
         for pid, data in get_all_products().items():
-            product_listbox.insert(tk.END, f"{pid}: {data['name']} - ${data['price']:.2f}")
+            product_listbox.insert(tk.END, f"{pid}: {data['name']} - ksh{data['price']:.2f}")
 
     def handle_add():
         name = name_entry.get()
         try:
             price = float(price_entry.get())
             if name:
-                add_product(name, price)
+                pid = get_next_product_id()
+                add_product(pid, name, price)
                 name_entry.delete(0, tk.END)
                 price_entry.delete(0, tk.END)
                 refresh_product_list()
