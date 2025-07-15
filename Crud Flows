@@ -1,69 +1,16 @@
-import tkinter as tk
-from tkinter import messagebox
-
-# Here we are creating a hashmap to store our products
 product_catalog = {}
+product_id_counter = 1000
 
-# This function here helps us to add a product and edit it
-def add_or_edit_product():
-    product_id = entry_id.get()
-    name = entry_name.get()
-    price = entry_price.get()
+def add_product(name, price):
+    global product_id_counter
+    pid = f"P{product_id_counter}"
+    product_id_counter += 1
+    product_catalog[pid] = {"name": name, "price": price}
+    return pid
 
-    if product_id and name and price:
-        product_catalog[product_id] = {'name': name, 'price': float(price)}
-        messagebox.showinfo("Success", f"Product '{name}' added/updated.")
-        clear_entries()
-    else:
-        messagebox.showwarning("Input Error", "All fields are required.")
-
-# Function to delete a product
-def delete_product():
-    pid = entry_id.get()
+def delete_product(pid):
     if pid in product_catalog:
         del product_catalog[pid]
-        messagebox.showinfo("Deleted", f"Product with ID {pid} deleted.")
-        clear_entries()
-    else:
-        messagebox.showwarning("Not Found", "Product ID not found.")
 
-# Function to search for a product
-def search_product():
-    pid = entry_id.get()
-    if pid in product_catalog:
-        product = product_catalog[pid]
-        entry_name.delete(0, tk.END)
-        entry_name.insert(0, product['name'])
-        entry_price.delete(0, tk.END)
-        entry_price.insert(0, product['price'])
-    else:
-        messagebox.showwarning("Not Found", "Product ID not found.")
-
-# Function to clear input fields
-def clear_entries():
-    entry_id.delete(0, tk.END)
-    entry_name.delete(0, tk.END)
-    entry_price.delete(0, tk.END)
-
-# Tkinter GUI setup
-window = tk.Tk()
-window.title("Product Manager")
-
-tk.Label(window, text="Product ID").grid(row=0, column=0)
-entry_id = tk.Entry(window)
-entry_id.grid(row=0, column=1)
-
-tk.Label(window, text="Product Name").grid(row=1, column=0)
-entry_name = tk.Entry(window)
-entry_name.grid(row=1, column=1)
-
-tk.Label(window, text="Product Price").grid(row=2, column=0)
-entry_price = tk.Entry(window)
-entry_price.grid(row=2, column=1)
-
-tk.Button(window, text="Add/Edit", command=add_or_edit_product).grid(row=3, column=0)
-tk.Button(window, text="Delete", command=delete_product).grid(row=3, column=1)
-tk.Button(window, text="Search", command=search_product).grid(row=4, column=0)
-tk.Button(window, text="Clear", command=clear_entries).grid(row=4, column=1)
-
-window.mainloop()
+def get_all_products():
+    return product_catalog
